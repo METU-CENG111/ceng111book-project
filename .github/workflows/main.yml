@@ -1,0 +1,43 @@
+name: deploy-book
+
+# Trigger the build on push to main branch
+on:
+  push:
+    branches:
+      - main
+
+# Permissions needed for the bot to deploy to GitHub Pages
+permissions:
+  contents: write
+
+jobs:
+  deploy-book:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # 1. Setup Python
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+
+    # 2. Install dependencies
+    - name: Install dependencies
+      run: |
+        pip install jupyter-book
+        # If your notebooks need specific libraries (pandas, etc.), install them here:
+        # pip install -r requirements.txt
+
+    # 3. Build the book (HTML)
+    - name: Build the book
+      run: |
+        jb build .
+
+    # 4. Deploy HTML to GitHub Pages
+    - name: GitHub Pages action
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./_build/html
