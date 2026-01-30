@@ -33,7 +33,7 @@ jobs:
     # 3. Build the book (HTML)
     - name: Build the book
       run: |
-        jb build .
+        jupyter-book build .
 
     # 4. Deploy HTML to GitHub Pages
     - name: GitHub Pages action
