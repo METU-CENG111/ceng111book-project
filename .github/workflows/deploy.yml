@@ -48,6 +48,10 @@ jobs:
         run: |
           jupyter-book build
 
+      # OPTIONAL: Add this temporarily to verify the folder structure if you are unsure
+      - name: Debug Output Directory
+        run: ls -R _build
+
       # https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow
 
       # Upload the book's HTML as an artifact
