@@ -13,18 +13,26 @@ jobs:
       pages: write
       id-token: write
     steps:
-      # FIX: Use v4 (v5 does not exist)
+      # Use v4 (Stable standard)
       - uses: actions/checkout@v4
 
-      # FIX: Use v5 (v6 does not exist)
+      # Use v5 (Stable standard)
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11" # 3.11 is the most stable for JB right now
+          python-version: "3.11"
           cache: pip
 
       - name: Install dependencies
         run: pip install -r requirements.txt
+
+      # === DEBUG STEP: Verify we are in the right place ===
+      - name: Where am I?
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "Files in this directory:"
+          ls -la
+      # ==================================================
 
       - name: Cache executed notebooks
         uses: actions/cache@v4
@@ -32,12 +40,11 @@ jobs:
           path: _build/.jupyter_cache
           key: jupyter-book-cache-${{ hashFiles('requirements.txt') }}
 
-      # Build the book (Classic mode outputs to _build/html)
+      # FIX: Added the dot back
       - name: Build the book
         run: |
           jupyter-book build .
 
-      # FIX: Point back to _build/html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
