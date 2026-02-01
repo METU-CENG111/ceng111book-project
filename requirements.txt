@@ -1,1 +1,2 @@
-jupyter-book
+#jupyter-book
+jupyter-book==1.0.0
